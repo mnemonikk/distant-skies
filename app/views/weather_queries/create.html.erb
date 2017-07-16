@@ -1,1 +1,5 @@
-<%= @client.current(@weather_query.location) %>
+<h1>Current weather in <%= @weather_query.location %></h1>
+
+<%= @client.current(@weather_query.location).to_s %>
+
+<%= render 'edit' %>

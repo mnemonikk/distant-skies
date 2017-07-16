@@ -38,12 +38,9 @@ RSpec.describe WeatherClient do
   }
 
   it 'returns local weather data' do
-    expect(client.current('bötzow'))
-      .to include("main" => a_hash_including(
-                    "temp" => 18.53,
-                    "pressure"=>1020,
-                    "humidity"=>77,
-                    "temp_min"=>18,
-                    "temp_max"=>19))
+    result = client.current('bötzow')
+    expect(result.temp).to eq(18.53)
+    expect(result.pressure).to eq(1020)
+    expect(result.humidity).to eq(77)
   end
 end
