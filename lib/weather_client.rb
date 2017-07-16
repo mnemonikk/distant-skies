@@ -4,6 +4,12 @@ require 'rack/utils'
 require 'json'
 
 class WeatherClient
+  module ResultNotFound
+    def self.to_s
+      "City not found"
+    end
+  end
+
   class Result
     def initialize(weather_data)
       @weather_data = weather_data
@@ -52,24 +58,25 @@ class WeatherClient
   end
 
   def current(location)
-    Result.new(
-      cache.fetch(location) {
-        cache[location] =
-          begin
-            uri = URI(BASE_URI)
-            uri.query = Rack::Utils.build_query(
-              appid: ENV.fetch('APPID'),
-              units: 'metric',
-              q: location
-            )
-            response = http_client.get(uri.to_s)
-            JSON.parse(response.body)
-          end
-      }
-    )
+    cache.fetch(location) {
+      cache[location] = get_current(location)
+    }
   end
 
   private
 
   attr_reader :cache, :http_client
+
+  def get_current(location)
+    uri = URI(BASE_URI)
+    uri.query = Rack::Utils.build_query(
+      appid: ENV.fetch('APPID'),
+      units: 'metric',
+      q: location
+    )
+    response = http_client.get(uri.to_s)
+    Result.new(JSON.parse(response.body))
+  rescue RestClient::NotFound
+    ResultNotFound
+  end
 end

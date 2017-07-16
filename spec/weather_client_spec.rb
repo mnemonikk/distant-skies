@@ -8,6 +8,7 @@ RSpec.describe WeatherClient do
     double('http_client').tap do |http_client|
       allow(http_client).to receive(:get).with(/#{Rack::Utils.escape('bötzow')}/).and_return(response_for_boetzow)
       allow(http_client).to receive(:get).with(/wilhelmshaven/).and_return(response_for_wilhelmshaven)
+      allow(http_client).to receive(:get).with(/wolkenkuckucksheim/).and_raise(RestClient::NotFound)
     end
   }
 
@@ -94,5 +95,9 @@ RSpec.describe WeatherClient do
     expect(result.temp).to eq(18.53)
     expect(result.pressure).to eq(1020)
     expect(result.humidity).to eq(77)
+  end
+
+  it 'handles unknown locations' do
+    expect(client.current("wolkenkuckucksheim").to_s).to match(/not found/i)
   end
 end
