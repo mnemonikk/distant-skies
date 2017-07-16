@@ -1,24 +1,14 @@
-# README
+# Distant Skies
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a simple web frontend for OpenWeatherMap. 
 
-Things you may want to cover:
+# Dev notes
+## OpenWeatherMap API
 
-* Ruby version
+See API docs at http://openweathermap.org/current.
 
-* System dependencies
+Example query:
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+    curl http://api.openweathermap.org/data/2.5/weather?q=London&appid=YOURAPPID
+    
+Seems I have to register and get a token. This can be passed as an environment variable, the dotenv gem will come in handy here.
