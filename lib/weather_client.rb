@@ -36,22 +36,40 @@ class WeatherClient
 
   BASE_URI = "http://api.openweathermap.org/data/2.5/weather"
 
-  def initialize(http_client = RestClient)
+  def self.instance
+    @instance ||= new(
+      Moneta.new(
+        :YAML,
+        file: Rails.root.join('tmp', 'cache', 'weather_data.yml'),
+        expires: 300
+      )
+    )
+  end
+
+  def initialize(cache = Moneta.new(:LRUHash), http_client = RestClient)
+    @cache = cache
     @http_client = http_client
   end
 
   def current(location)
-    uri = URI(BASE_URI)
-    uri.query = Rack::Utils.build_query(
-      appid: ENV.fetch('APPID'),
-      units: 'metric',
-      q: location
+    Result.new(
+      cache.fetch(location) {
+        cache[location] =
+          begin
+            uri = URI(BASE_URI)
+            uri.query = Rack::Utils.build_query(
+              appid: ENV.fetch('APPID'),
+              units: 'metric',
+              q: location
+            )
+            response = http_client.get(uri.to_s)
+            JSON.parse(response.body)
+          end
+      }
     )
-    response = http_client.get(uri.to_s)
-    Result.new(JSON.parse(response.body))
   end
 
   private
 
-  attr_reader :http_client
+  attr_reader :cache, :http_client
 end

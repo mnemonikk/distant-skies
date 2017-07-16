@@ -8,6 +8,6 @@ class WeatherQueriesController < ActionController::Base
       params.require(:weather_query).permit(:location, :country)
     )
 
-    @client = WeatherClient.new
+    @client = WeatherClient.instance
   end
 end
