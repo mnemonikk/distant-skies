@@ -9,6 +9,7 @@ RSpec.describe WeatherClient do
       allow(http_client).to receive(:get).with(/#{Rack::Utils.escape('bötzow')}/).and_return(response_for_boetzow)
       allow(http_client).to receive(:get).with(/wilhelmshaven/).and_return(response_for_wilhelmshaven)
       allow(http_client).to receive(:get).with(/wolkenkuckucksheim/).and_raise(RestClient::NotFound)
+      allow(http_client).to receive(:get).with(/q=$/).and_raise(RestClient::BadRequest)
     end
   }
 
@@ -99,5 +100,9 @@ RSpec.describe WeatherClient do
 
   it 'handles unknown locations' do
     expect(client.current("wolkenkuckucksheim").to_s).to match(/not found/i)
+  end
+
+  it 'handles failing requests' do
+    expect(client.current("").to_s).to match(/problem/)
   end
 end

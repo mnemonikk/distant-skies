@@ -10,6 +10,12 @@ class WeatherClient
     end
   end
 
+  module NoResult
+    def self.to_s
+      "We've had a problem."
+    end
+  end
+
   class Result
     def initialize(weather_data)
       @weather_data = weather_data
@@ -78,5 +84,7 @@ class WeatherClient
     Result.new(JSON.parse(response.body))
   rescue RestClient::NotFound
     ResultNotFound
+  rescue RestClient::Exception
+    NoResult
   end
 end
