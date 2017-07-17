@@ -1,0 +1,90 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://api.openweathermap.org/data/2.5/weather?appid=<APPID>&q=Potsdam,DE&units=metric
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.4.1p111
+      Host:
+      - api.openweathermap.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Mon, 17 Jul 2017 08:43:21 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '443'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?q=potsdam%2cde&units=metric"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":13.07,"lat":52.4},"weather":[{"id":802,"main":"Clouds","description":"scattered
+        clouds","icon":"03d"}],"base":"stations","main":{"temp":18.51,"pressure":1021,"humidity":63,"temp_min":18,"temp_max":19},"visibility":10000,"wind":{"speed":4.1,"deg":280},"clouds":{"all":40},"dt":1500279600,"sys":{"type":1,"id":4892,"message":0.0019,"country":"DE","sunrise":1500260803,"sunset":1500319218},"id":2852458,"name":"Potsdam","cod":200}'
+    http_version: 
+  recorded_at: Mon, 17 Jul 2017 08:43:20 GMT
+- request:
+    method: get
+    uri: http://api.openweathermap.org/data/2.5/weather?appid=<APPID>&q=Potsdam,US&units=metric
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      Accept-Encoding:
+      - gzip, deflate
+      User-Agent:
+      - rest-client/2.0.2 (linux-gnu x86_64) ruby/2.4.1p111
+      Host:
+      - api.openweathermap.org
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - openresty
+      Date:
+      - Mon, 17 Jul 2017 08:45:02 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '431'
+      Connection:
+      - keep-alive
+      X-Cache-Key:
+      - "/data/2.5/weather?q=potsdam%2cus&units=metric"
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Credentials:
+      - 'true'
+      Access-Control-Allow-Methods:
+      - GET, POST
+    body:
+      encoding: UTF-8
+      string: '{"coord":{"lon":-74.98,"lat":44.67},"weather":[{"id":701,"main":"Mist","description":"mist","icon":"50n"}],"base":"stations","main":{"temp":14.82,"pressure":1017,"humidity":100,"temp_min":13,"temp_max":17},"visibility":4828,"wind":{"speed":1.5,"deg":350},"clouds":{"all":75},"dt":1500279000,"sys":{"type":1,"id":2112,"message":0.0027,"country":"US","sunrise":1500283869,"sunset":1500338435},"id":5132103,"name":"Potsdam","cod":200}'
+    http_version: 
+  recorded_at: Mon, 17 Jul 2017 08:45:01 GMT
+recorded_with: VCR 3.0.3

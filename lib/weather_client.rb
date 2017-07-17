@@ -63,9 +63,9 @@ class WeatherClient
     @http_client = http_client
   end
 
-  def current(location)
-    cache.fetch(location) {
-      cache[location] = get_current(location)
+  def current(location, country = nil)
+    cache.fetch([location, country]) {
+      cache[[location, country]] = get_current(location, country)
     }
   end
 
@@ -73,12 +73,12 @@ class WeatherClient
 
   attr_reader :cache, :http_client
 
-  def get_current(location)
+  def get_current(location, country)
     uri = URI(BASE_URI)
     uri.query = Rack::Utils.build_query(
       appid: ENV.fetch('APPID'),
       units: 'metric',
-      q: location
+      q: [location, country].compact.join(',')
     )
     response = http_client.get(uri.to_s)
     Result.new(JSON.parse(response.body))

@@ -8,6 +8,11 @@ class WeatherQueriesController < ActionController::Base
       params.require(:weather_query).permit(:location, :country)
     )
 
-    @client = WeatherClient.instance
+    render 'new' unless @weather_query.valid?
+
+    @result = WeatherClient.instance.current(
+      @weather_query.location,
+      @weather_query.country.presence
+    )
   end
 end
